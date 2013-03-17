@@ -25,9 +25,9 @@ BuildRequires:	sphinx-pdg >= 1.0
 %endif
 %if %{with python3}
 BuildRequires:	python3-devel
+BuildRequires:	python3-distribute
 BuildRequires:	python3-modules
 BuildRequires:	python3-py >= %{pylib_version}
-BuildRequires:	python3-setuptools
 %endif
 Requires:	python-py >= %{pylib_version}
 BuildArch:	noarch
@@ -41,12 +41,17 @@ py.test to proste i popularne narzędzie testujące dla Pythona.
 
 %package -n python3-pytest
 Summary:	Simple powerful testing with Python
+Summary(pl.UTF-8):	Proste, ale funkcjonalne narzędzie testujące dla Pythona
 Group:		Development/Languages
 Requires:	python3-py >= %{pylib_version}
-Requires:	python3-setuptools
+Suggests:	python3-setuptools
 
 %description -n python3-pytest
 py.test provides simple, yet powerful testing for Python.
+
+%description -n python3-pytest -l pl.UTF-8
+py.test to proste, ale bardzo funkcjonalne narzędzie testujące dla
+Pythona.
 
 %prep
 %setup -q -n %{module}-%{version}
@@ -109,8 +114,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc CHANGELOG LICENSE README.txt %{?with_doc:_htmldocs/html}
 %attr(755,root,root) %{_bindir}/py.test-%{py3_ver}
-%{py3_sitescriptdir}/%{module}.py
+%{py3_sitescriptdir}/pytest.py
 %{py3_sitescriptdir}/_pytest
-%{py3_sitescriptdir}/__pycache__/%{module}.*.py[co]
+%{py3_sitescriptdir}/__pycache__/pytest.*.py[co]
 %{py3_sitescriptdir}/pytest-%{version}-py*.egg-info
 %endif
