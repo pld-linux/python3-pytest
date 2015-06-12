@@ -8,15 +8,16 @@
 Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python-%{module}
-Version:	2.6.4
+Version:	2.7.1
 Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 Source0:	https://pypi.python.org/packages/source/p/pytest/pytest-%{version}.tar.gz
-# Source0-md5:	14341e122f7e9031a0948eb6b01a2640
+# Source0-md5:	e972d691ff6779ffb4b594449bac3e43
 URL:		http://pytest.org/
 BuildRequires:	python-devel >= 2.4
 BuildRequires:	python-py >= %{pylib_version}
+BuildRequires:	python-setuptools >= 7.0
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sed >= 4.0
@@ -25,9 +26,9 @@ BuildRequires:	sphinx-pdg >= 1.0
 %endif
 %if %{with python3}
 BuildRequires:	python3-devel
-BuildRequires:	python3-distribute
 BuildRequires:	python3-modules
 BuildRequires:	python3-py >= %{pylib_version}
+BuildRequires:	python3-setuptools >= 7.0
 %endif
 Requires:	python-py >= %{pylib_version}
 BuildArch:	noarch
