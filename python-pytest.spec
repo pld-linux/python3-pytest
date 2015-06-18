@@ -12,10 +12,11 @@ Version:	2.7.1
 Release:	1
 License:	MIT
 Group:		Development/Languages/Python
+#Source0Download: https://pypi.python.org/pypi/pytest
 Source0:	https://pypi.python.org/packages/source/p/pytest/pytest-%{version}.tar.gz
 # Source0-md5:	e972d691ff6779ffb4b594449bac3e43
 URL:		http://pytest.org/
-BuildRequires:	python-devel >= 2.4
+BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	python-py >= %{pylib_version}
 BuildRequires:	python-setuptools >= 7.0
 BuildRequires:	rpm-pythonprov
@@ -25,8 +26,8 @@ BuildRequires:	sed >= 4.0
 BuildRequires:	sphinx-pdg >= 1.0
 %endif
 %if %{with python3}
-BuildRequires:	python3-devel
-BuildRequires:	python3-modules
+BuildRequires:	python3-devel >= 1:3.3
+BuildRequires:	python3-modules >= 1:3.3
 BuildRequires:	python3-py >= %{pylib_version}
 BuildRequires:	python3-setuptools >= 7.0
 %endif
