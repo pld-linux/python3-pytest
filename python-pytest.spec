@@ -58,20 +58,11 @@ Pythona.
 %prep
 %setup -q -n %{module}-%{version}
 
-%if %{with python3}
-rm -rf build-3
-set -- *
-install -d build-3
-cp -a "$@" build-3
-find build-3 -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
-%endif
-
 %build
-%{__python} setup.py build
+%py_build
 
 %if %{with python3}
-%{__python3} setup.py \
-	build -b build-3
+%py3_build
 %endif
 
 %if %{with doc}
@@ -87,15 +78,12 @@ done
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__python3} -- setup.py \
-	build -b build-3 \
-	install \
-	--root=$RPM_BUILD_ROOT \
-	--optimize=2
 
-%{__python} setup.py install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%if %{with python3}
+%py3_install
+%endif
+
+%py_install
 
 %py_postclean
 
