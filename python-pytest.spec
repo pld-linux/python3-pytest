@@ -20,7 +20,7 @@ BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	python-py >= %{pylib_version}
 BuildRequires:	python-setuptools >= 7.0
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	rpmbuild(macros) >= 1.710
 BuildRequires:	sed >= 4.0
 %if %{with doc}
 BuildRequires:	sphinx-pdg >= 1.0
