@@ -3,18 +3,18 @@
 %bcond_without	doc	# HTML documentation build
 %bcond_without	python3 # CPython 3.x module
 
-%define		pylib_version	1.4.12
+%define		pylib_version	1.4.29
 %define 	module	pytest
 Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python-%{module}
-Version:	2.8.2
+Version:	2.8.7
 Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.python.org/pypi/pytest
 Source0:	https://pypi.python.org/packages/source/p/pytest/pytest-%{version}.tar.gz
-# Source0-md5:	96e77b3a2fb40e5d99a1cfba38ac7c6d
+# Source0-md5:	685e2137062c9821b1b74a4814795514
 URL:		http://pytest.org/
 BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	python-py >= %{pylib_version}
