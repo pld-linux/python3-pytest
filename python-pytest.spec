@@ -8,13 +8,13 @@
 Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python-%{module}
-Version:	2.8.7
+Version:	2.9.1
 Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.python.org/pypi/pytest
 Source0:	https://pypi.python.org/packages/source/p/pytest/pytest-%{version}.tar.gz
-# Source0-md5:	685e2137062c9821b1b74a4814795514
+# Source0-md5:	05165740ea50928e4e971378630163ec
 URL:		http://pytest.org/
 BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	python-py >= %{pylib_version}
@@ -92,7 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG LICENSE README.rst %{?with_doc:_htmldocs/html}
+%doc AUTHORS CHANGELOG.rst LICENSE README.rst %{?with_doc:_htmldocs/html}
 %attr(755,root,root) %{_bindir}/py.test
 %attr(755,root,root) %{_bindir}/py.test-%{py_ver}
 %{py_sitescriptdir}/pytest.py[co]
@@ -102,7 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python3}
 %files -n python3-pytest
 %defattr(644,root,root,755)
-%doc CHANGELOG LICENSE README.rst %{?with_doc:_htmldocs/html}
+%doc AUTHORS CHANGELOG.rst LICENSE README.rst %{?with_doc:_htmldocs/html}
 %attr(755,root,root) %{_bindir}/py.test-%{py3_ver}
 %{py3_sitescriptdir}/pytest.py
 %{py3_sitescriptdir}/_pytest
