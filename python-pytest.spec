@@ -35,6 +35,7 @@ BuildRequires:	sed >= 4.0
 %if %{with doc}
 BuildRequires:	sphinx-pdg >= 1.0
 %endif
+Obsoletes:	python-pytest-cache
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -49,6 +50,7 @@ Summary:	Simple powerful testing with Python
 Summary(pl.UTF-8):	Proste, ale funkcjonalne narzędzie testujące dla Pythona
 Group:		Development/Languages
 Suggests:	python3-setuptools
+Obsoletes:	python3-pytest-cache
 
 %description -n python3-pytest
 py.test provides simple, yet powerful testing for Python.
