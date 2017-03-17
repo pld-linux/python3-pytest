@@ -9,13 +9,13 @@
 Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python-%{module}
-Version:	2.9.2
-Release:	2
+Version:	3.0.7
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.python.org/simple/pytest
 Source0:	https://files.pythonhosted.org/packages/source/p/pytest/pytest-%{version}.tar.gz
-# Source0-md5:	b65c2944dfaa0efb62c0239afb424f5b
+# Source0-md5:	89c60546507dc7eb6e9e40a6e9f720bd
 URL:		http://pytest.org/
 %if %{with python2}
 BuildRequires:	python-devel >= 1:2.6
@@ -35,6 +35,7 @@ BuildRequires:	sed >= 4.0
 %if %{with doc}
 BuildRequires:	sphinx-pdg >= 1.0
 %endif
+Requires:	python-setuptools
 Obsoletes:	python-pytest-cache
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -49,7 +50,7 @@ py.test to proste i popularne narzędzie testujące dla Pythona.
 Summary:	Simple powerful testing with Python
 Summary(pl.UTF-8):	Proste, ale funkcjonalne narzędzie testujące dla Pythona
 Group:		Development/Languages
-Suggests:	python3-setuptools
+Requires:	python3-setuptools
 Obsoletes:	python3-pytest-cache
 
 %description -n python3-pytest
@@ -98,10 +99,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %if %{with python3}
 %py3_install
+
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/py.test{,-3}
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/pytest{,-3}
 %endif
 
 %if %{with python2}
 %py_install
+
+ln $RPM_BUILD_ROOT%{_bindir}/py.test{,-2}
+ln $RPM_BUILD_ROOT%{_bindir}/pytest{,-2}
 
 # pytest.py source seems required for "monkeypatching" tests
 %py_postclean -x pytest.py
@@ -115,7 +122,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS CHANGELOG.rst LICENSE README.rst
 %attr(755,root,root) %{_bindir}/py.test
-%attr(755,root,root) %{_bindir}/py.test-%{py_ver}
+%attr(755,root,root) %{_bindir}/py.test-2
+%attr(755,root,root) %{_bindir}/pytest
+%attr(755,root,root) %{_bindir}/pytest-2
 %{py_sitescriptdir}/pytest.py*
 %{py_sitescriptdir}/_pytest
 %{py_sitescriptdir}/pytest-%{version}-py*.egg-info
@@ -125,7 +134,8 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python3-pytest
 %defattr(644,root,root,755)
 %doc AUTHORS CHANGELOG.rst LICENSE README.rst
-%attr(755,root,root) %{_bindir}/py.test-%{py3_ver}
+%attr(755,root,root) %{_bindir}/py.test-3
+%attr(755,root,root) %{_bindir}/pytest-3
 %{py3_sitescriptdir}/pytest.py
 %{py3_sitescriptdir}/_pytest
 %{py3_sitescriptdir}/__pycache__/pytest.*.py[co]
