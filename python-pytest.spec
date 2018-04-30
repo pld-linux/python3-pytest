@@ -10,7 +10,7 @@ Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python-%{module}
 Version:	3.0.7
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.python.org/simple/pytest
@@ -35,6 +35,7 @@ BuildRequires:	sed >= 4.0
 %if %{with doc}
 BuildRequires:	sphinx-pdg >= 1.0
 %endif
+Requires:	python-modules
 Requires:	python-setuptools
 Obsoletes:	python-pytest-cache
 BuildArch:	noarch
@@ -50,6 +51,7 @@ py.test to proste i popularne narzędzie testujące dla Pythona.
 Summary:	Simple powerful testing with Python
 Summary(pl.UTF-8):	Proste, ale funkcjonalne narzędzie testujące dla Pythona
 Group:		Development/Languages
+Requires:	python3-devel-tools
 Requires:	python3-setuptools
 Obsoletes:	python3-pytest-cache
 
