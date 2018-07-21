@@ -36,6 +36,7 @@ BuildRequires:	python-nose
 BuildRequires:	python-pluggy >= 0.5
 BuildRequires:	python-requests
 BuildRequires:	python-six >= 1.10.0
+BuildConflicts:	python-backports.unittest_mock
 BuildConflicts:	python-pytest-catchlog
 # with xdist requires various modules source
 BuildConflicts:	python-pytest-xdist
@@ -57,6 +58,7 @@ BuildRequires:	python3-pluggy >= 0.5
 BuildRequires:	python3-requests
 BuildRequires:	python3-six >= 1.10.0
 BuildConflicts:	python3-pytest-catchlog
+BuildConflicts:	python3-pytest-xdist
 %endif
 %endif
 BuildRequires:	rpm-pythonprov
