@@ -3,41 +3,71 @@
 %bcond_without	doc	# HTML documentation build
 %bcond_without	python2 # CPython 2.x module
 %bcond_without	python3 # CPython 3.x module
+%bcond_without	tests	# unit tests
 
-%define		pylib_version	1.4.29
+%define		pylib_version	1.5.0
 %define 	module	pytest
 Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python-%{module}
-Version:	3.0.7
-Release:	3
+Version:	3.6.3
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
-#Source0Download: https://pypi.python.org/simple/pytest
+#Source0Download: https://pypi.org/simple/pytest/
 Source0:	https://files.pythonhosted.org/packages/source/p/pytest/pytest-%{version}.tar.gz
-# Source0-md5:	89c60546507dc7eb6e9e40a6e9f720bd
+# Source0-md5:	8ca6124a3a80f9555c50f5c09056ea02
+Patch0:		%{name}-tests.patch
 URL:		http://pytest.org/
 %if %{with python2}
-BuildRequires:	python-devel >= 1:2.6
-BuildRequires:	python-modules >= 1:2.6
+BuildRequires:	python-devel >= 1:2.7
+BuildRequires:	python-modules >= 1:2.7
 BuildRequires:	python-py >= %{pylib_version}
 BuildRequires:	python-setuptools >= 7.0
+BuildRequires:	python-setuptools_scm
+%if %{with tests}
+BuildRequires:	python-atomicwrites >= 1.0
+BuildRequires:	python-attrs >= 17.4.0
+BuildRequires:	python-funcsigs
+BuildRequires:	python-hypothesis >= 3.56
+BuildRequires:	python-mock
+BuildRequires:	python-nose
+BuildRequires:	python-pluggy >= 0.5
+BuildRequires:	python-requests
+BuildRequires:	python-six >= 1.10.0
+BuildConflicts:	python-pytest-catchlog
+# with xdist requires various modules source
+BuildConflicts:	python-pytest-xdist
+%endif
 %endif
 %if %{with python3}
-BuildRequires:	python3-devel >= 1:3.3
-BuildRequires:	python3-modules >= 1:3.3
+BuildRequires:	python3-devel >= 1:3.4
+BuildRequires:	python3-modules >= 1:3.4
 BuildRequires:	python3-py >= %{pylib_version}
 BuildRequires:	python3-setuptools >= 7.0
+BuildRequires:	python3-setuptools_scm
+%if %{with tests}
+BuildRequires:	python3-atomicwrites >= 1.0
+BuildRequires:	python3-attrs >= 17.4.0
+BuildRequires:	python3-hypothesis >= 3.56
+BuildRequires:	python3-nose
+BuildRequires:	python3-pluggy >= 0.5
+BuildRequires:	python3-requests
+BuildRequires:	python3-six >= 1.10.0
+BuildConflicts:	python3-pytest-catchlog
+%endif
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	sed >= 4.0
 %if %{with doc}
-BuildRequires:	sphinx-pdg >= 1.0
+BuildRequires:	python3-sphinxcontrib-trio
+BuildRequires:	sphinx-pdg-3 >= 1.0
 %endif
 Requires:	python-modules
 Requires:	python-setuptools
 Obsoletes:	python-pytest-cache
+Obsoletes:	python-pytest-catchlog
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -54,6 +84,7 @@ Group:		Development/Languages
 Requires:	python3-devel-tools
 Requires:	python3-setuptools
 Obsoletes:	python3-pytest-cache
+Obsoletes:	python3-pytest-catchlog
 
 %description -n python3-pytest
 py.test provides simple, yet powerful testing for Python.
@@ -75,24 +106,32 @@ Dokumentacja pakietu Pythona py.test.
 
 %prep
 %setup -q -n %{module}-%{version}
+%patch0 -p1
 
 %build
 %if %{with python2}
 %py_build
+
+%if %{with tests}
+PYTHONPATH=$(pwd)/src \
+%{__python} -m pytest testing
+%endif
 %endif
 
 %if %{with python3}
 %py3_build
+
+%if %{with tests}
+PYTHONPATH=$(pwd)/src \
+%{__python3} -m pytest testing
+%endif
 %endif
 
 %if %{with doc}
-install -d _htmldocs/html
 for l in doc/*; do
-	PYTHONPATH=$(pwd) \
-	%{__make} -C $l html
-	# remove hidden file
-	%{__rm} $l/_build/html/.buildinfo
-	%{__mv} $l/_build/html _htmldocs/html/${l##doc/}
+	PYTHONPATH=$(pwd)/src \
+	%{__make} -C $l html \
+		SPHINXBUILD=sphinx-build-3
 done
 %endif
 
@@ -104,6 +143,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__mv} $RPM_BUILD_ROOT%{_bindir}/py.test{,-3}
 %{__mv} $RPM_BUILD_ROOT%{_bindir}/pytest{,-3}
+
+# avoid python3egg(funcsigs) dependency
+%{__sed} -i -e '/^\[:python_version < "3\.0"]/,/^$/ d' $RPM_BUILD_ROOT%{py3_sitescriptdir}/pytest-%{version}-py*.egg-info/requires.txt
 %endif
 
 %if %{with python2}
@@ -147,5 +189,5 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with doc}
 %files apidocs
 %defattr(644,root,root,755)
-%doc _htmldocs/html
+%doc doc/en/_build/html/{_images,_modules,_static,announce,example,proposals,*.html,*.js}
 %endif

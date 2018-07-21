@@ -1,0 +1,12 @@
+--- pytest-3.6.3/testing/code/test_excinfo.py.orig	2018-07-04 23:23:50.000000000 +0200
++++ pytest-3.6.3/testing/code/test_excinfo.py	2018-07-18 05:46:24.873976914 +0200
+@@ -371,7 +371,8 @@
+     for item in excinfo.traceback:
+         print(item)  # XXX: for some reason jinja.Template.render is printed in full
+         item.source  # shouldnt fail
+-        if item.path.basename == "test.txt":
++        from six import string_types
++        if not isinstance(item.path, string_types) and item.path.basename == "test.txt":
+             assert str(item.source) == "{{ h()}}:"
+ 
+ 
