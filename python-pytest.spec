@@ -31,6 +31,7 @@ BuildRequires:	python-attrs >= 17.4.0
 BuildRequires:	python-funcsigs
 BuildRequires:	python-hypothesis >= 3.56
 BuildRequires:	python-mock
+BuildRequires:	python-more_itertools
 BuildRequires:	python-nose
 BuildRequires:	python-pluggy >= 0.5
 BuildRequires:	python-requests
@@ -50,6 +51,7 @@ BuildRequires:	python3-setuptools_scm
 BuildRequires:	python3-atomicwrites >= 1.0
 BuildRequires:	python3-attrs >= 17.4.0
 BuildRequires:	python3-hypothesis >= 3.56
+BuildRequires:	python3-more_itertools
 BuildRequires:	python3-nose
 BuildRequires:	python3-pluggy >= 0.5
 BuildRequires:	python3-requests
