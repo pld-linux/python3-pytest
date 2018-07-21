@@ -11,7 +11,7 @@ Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python-%{module}
 Version:	3.6.3
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pytest/
@@ -26,6 +26,7 @@ BuildRequires:	python-py >= %{pylib_version}
 BuildRequires:	python-setuptools >= 7.0
 BuildRequires:	python-setuptools_scm
 %if %{with tests}
+BuildRequires:	pydoc >= 1:2.7
 BuildRequires:	python-atomicwrites >= 1.0
 BuildRequires:	python-attrs >= 17.4.0
 BuildRequires:	python-funcsigs
@@ -49,6 +50,7 @@ BuildRequires:	python3-py >= %{pylib_version}
 BuildRequires:	python3-setuptools >= 7.0
 BuildRequires:	python3-setuptools_scm
 %if %{with tests}
+BuildRequires:	pydoc3 >= 1:3.4
 BuildRequires:	python3-atomicwrites >= 1.0
 BuildRequires:	python3-attrs >= 17.4.0
 BuildRequires:	python3-hypothesis >= 3.56
@@ -149,7 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__mv} $RPM_BUILD_ROOT%{_bindir}/pytest{,-3}
 
 # avoid python3egg(funcsigs) dependency
-%{__sed} -i -e '/^\[:python_version < "3\.0"]/,/^$/ d' $RPM_BUILD_ROOT%{py3_sitescriptdir}/pytest-%{version}-py*.egg-info/requires.txt
+%{__sed} -i -e '/^\[:python_version *< *"3\.0"]/,/^$/ d' $RPM_BUILD_ROOT%{py3_sitescriptdir}/pytest-%{version}-py*.egg-info/requires.txt
 %endif
 
 %if %{with python2}
