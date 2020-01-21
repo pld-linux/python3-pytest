@@ -23,7 +23,7 @@ URL:		http://pytest.org/
 BuildRequires:	python-devel >= 1:2.7
 BuildRequires:	python-modules >= 1:2.7
 BuildRequires:	python-py >= %{pylib_version}
-BuildRequires:	python-setuptools >= 40.0
+BuildRequires:	python-setuptools >= 1:40.0
 BuildRequires:	python-setuptools_scm
 %if %{with tests}
 BuildRequires:	pydoc >= 1:2.7
@@ -49,7 +49,7 @@ BuildConflicts:	python-pytest-xdist
 BuildRequires:	python3-devel >= 1:3.4
 BuildRequires:	python3-modules >= 1:3.4
 BuildRequires:	python3-py >= %{pylib_version}
-BuildRequires:	python3-setuptools >= 40.0
+BuildRequires:	python3-setuptools >= 1:40.0
 BuildRequires:	python3-setuptools_scm
 %if %{with tests}
 BuildRequires:	pydoc3 >= 1:3.4
@@ -76,7 +76,7 @@ BuildRequires:	sed >= 4.0
 BuildRequires:	python3-sphinxcontrib-trio
 BuildRequires:	sphinx-pdg-3 >= 1.0
 %endif
-Requires:	python-modules
+Requires:	python-modules >= 1:2.7
 Requires:	python-setuptools
 Obsoletes:	python-pytest-cache
 Obsoletes:	python-pytest-catchlog
@@ -93,7 +93,7 @@ py.test to proste i popularne narzędzie testujące dla Pythona.
 Summary:	Simple powerful testing with Python
 Summary(pl.UTF-8):	Proste, ale funkcjonalne narzędzie testujące dla Pythona
 Group:		Development/Languages
-Requires:	python3-devel-tools
+Requires:	python3-devel-tools >= 1:3.4
 Requires:	python3-setuptools
 Obsoletes:	python3-pytest-cache
 Obsoletes:	python3-pytest-catchlog
