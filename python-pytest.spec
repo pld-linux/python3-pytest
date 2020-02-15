@@ -10,13 +10,13 @@
 Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python-%{module}
-Version:	3.10.1
-Release:	2
+Version:	4.6.9
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pytest/
 Source0:	https://files.pythonhosted.org/packages/source/p/pytest/pytest-%{version}.tar.gz
-# Source0-md5:	9afbcf5a86d4fea46024eb65994e7e69
+# Source0-md5:	d0457c5ddd0438e3b68b7939339d915f
 Patch0:		%{name}-tests.patch
 URL:		http://pytest.org/
 %if %{with python2}
@@ -27,19 +27,23 @@ BuildRequires:	python-setuptools >= 1:40.0
 BuildRequires:	python-setuptools_scm
 %if %{with tests}
 BuildRequires:	pydoc >= 1:2.7
+BuildRequires:	python-argcomplete
 BuildRequires:	python-atomicwrites >= 1.0
 BuildRequires:	python-attrs >= 17.4.0
-BuildRequires:	python-funcsigs
+BuildRequires:	python-funcsigs >= 1.0
 BuildRequires:	python-hypothesis >= 3.56
+BuildRequires:	python-importlib_metadata >= 0.12
 BuildRequires:	python-mock
 BuildRequires:	python-more_itertools >= 4.0.0
 BuildRequires:	python-nose
 BuildRequires:	python-pathlib2 >= 2.2.0
-BuildRequires:	python-pluggy >= 0.7
+BuildRequires:	python-pluggy >= 0.12
 BuildRequires:	python-requests
 BuildRequires:	python-six >= 1.10.0
+BuildRequires:	python-wcwidth
 BuildConflicts:	python-backports.unittest_mock
 BuildConflicts:	python-pyfakefs
+BuildConflicts:	python-pytest-benchmark < 3.2.1
 BuildConflicts:	python-pytest-catchlog
 # with xdist requires various modules source
 BuildConflicts:	python-pytest-xdist
@@ -53,18 +57,24 @@ BuildRequires:	python3-setuptools >= 1:40.0
 BuildRequires:	python3-setuptools_scm
 %if %{with tests}
 BuildRequires:	pydoc3 >= 1:3.4
+BuildRequires:	python3-argcomplete
 BuildRequires:	python3-atomicwrites >= 1.0
 BuildRequires:	python3-attrs >= 17.4.0
 BuildRequires:	python3-hypothesis >= 3.56
+%if "%{py3_ver}" < "3.8"
+BuildRequires:	python3-importlib_metadata >= 0.12
+%endif
 BuildRequires:	python3-more_itertools >= 4.0.0
 BuildRequires:	python3-nose
 %if "%{py3_ver}" < "3.6"
 BuildRequires:	python3-pathlib2 >= 2.2.0
 %endif
-BuildRequires:	python3-pluggy >= 0.7
+BuildRequires:	python3-pluggy >= 0.12
 BuildRequires:	python3-requests
 BuildRequires:	python3-six >= 1.10.0
+BuildRequires:	python3-wcwidth
 BuildConflicts:	python3-pyfakefs
+BuildConflicts:	python3-pytest-benchmark < 3.2.1
 BuildConflicts:	python3-pytest-catchlog
 BuildConflicts:	python3-pytest-xdist
 %endif
@@ -125,6 +135,9 @@ Dokumentacja pakietu Pythona py.test.
 %py_build
 
 %if %{with tests}
+# FIXME: 25 failed;
+# - some because of warnings
+# - ValueError: no option named u'--tb' (why? it's provided by _pytest/terminal.py)
 # test_pdb_custom_cls_with_settrace fails without preinstalled pytest
 PYTHONPATH=$(pwd)/src \
 %{__python} -m pytest -k 'not test_pdb and not TestTerminal and not test_request_garbage' testing
@@ -139,7 +152,7 @@ PYTHONPATH=$(pwd)/src \
 # test_pdb_* which spawn pdb hang under some unclear conditions
 # test_request_garbage fails sometimes
 PYTHONPATH=$(pwd)/src \
-%{__python3} -m pytest -v -k 'not test_pdb and not TestTerminal and not test_request_garbage' testing
+%{__python3} -m pytest -k 'not test_pdb and not TestTerminal and not test_request_garbage' testing
 %endif
 %endif
 
