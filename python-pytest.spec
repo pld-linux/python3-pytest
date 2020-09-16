@@ -10,15 +10,15 @@
 Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python-%{module}
-Version:	4.6.9
+Version:	4.6.11
 Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pytest/
 Source0:	https://files.pythonhosted.org/packages/source/p/pytest/pytest-%{version}.tar.gz
-# Source0-md5:	d0457c5ddd0438e3b68b7939339d915f
+# Source0-md5:	26cf20887076ad8a7beccfb5e9c44d04
 Patch0:		%{name}-tests.patch
-URL:		http://pytest.org/
+URL:		https://pytest.org/
 %if %{with python2}
 BuildRequires:	python-devel >= 1:2.7
 BuildRequires:	python-modules >= 1:2.7
@@ -35,17 +35,20 @@ BuildRequires:	python-hypothesis >= 3.56
 BuildRequires:	python-importlib_metadata >= 0.12
 BuildRequires:	python-mock
 BuildRequires:	python-more_itertools >= 4.0.0
+BuildRequires:	python-more_itertools < 6.0.0
 BuildRequires:	python-nose
+BuildRequires:	python-packaging
 BuildRequires:	python-pathlib2 >= 2.2.0
 BuildRequires:	python-pluggy >= 0.12
+BuildRequires:	python-pluggy < 1.0
 BuildRequires:	python-requests
 BuildRequires:	python-six >= 1.10.0
 BuildRequires:	python-wcwidth
 BuildConflicts:	python-backports.unittest_mock
-BuildConflicts:	python-pyfakefs
 BuildConflicts:	python-pytest-benchmark < 3.2.1
+# outdated
 BuildConflicts:	python-pytest-catchlog
-# with xdist requires various modules source
+# with xdist requires various modules source and breaks other things
 BuildConflicts:	python-pytest-xdist
 %endif
 %endif
@@ -66,16 +69,19 @@ BuildRequires:	python3-importlib_metadata >= 0.12
 %endif
 BuildRequires:	python3-more_itertools >= 4.0.0
 BuildRequires:	python3-nose
+BuildRequires:	python3-packaging
 %if "%{py3_ver}" < "3.6"
 BuildRequires:	python3-pathlib2 >= 2.2.0
 %endif
 BuildRequires:	python3-pluggy >= 0.12
+BuildRequires:	python3-pluggy < 1.0
 BuildRequires:	python3-requests
 BuildRequires:	python3-six >= 1.10.0
 BuildRequires:	python3-wcwidth
-BuildConflicts:	python3-pyfakefs
 BuildConflicts:	python3-pytest-benchmark < 3.2.1
+# outdated
 BuildConflicts:	python3-pytest-catchlog
+# seems to break things
 BuildConflicts:	python3-pytest-xdist
 %endif
 %endif
@@ -83,8 +89,10 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	sed >= 4.0
 %if %{with doc}
+BuildRequires:	python3-pygments_pytest
+BuildRequires:	python3-sphinx_removed_in >= 0.2.0
 BuildRequires:	python3-sphinxcontrib-trio
-BuildRequires:	sphinx-pdg-3 >= 1.0
+BuildRequires:	sphinx-pdg-3 >= 1.8.2
 %endif
 Requires:	python-modules >= 1:2.7
 Requires:	python-setuptools
@@ -131,16 +139,14 @@ Dokumentacja pakietu Pythona py.test.
 %patch0 -p1
 
 %build
+export PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
 %if %{with python2}
 %py_build
 
 %if %{with tests}
-# FIXME: 25 failed;
-# - some because of warnings
-# - ValueError: no option named u'--tb' (why? it's provided by _pytest/terminal.py)
 # test_pdb_custom_cls_with_settrace fails without preinstalled pytest
 PYTHONPATH=$(pwd)/src \
-%{__python} -m pytest -k 'not test_pdb and not TestTerminal and not test_request_garbage' testing
+%{__python} -m pytest -k 'not test_pdb' testing
 %endif
 %endif
 
@@ -150,9 +156,8 @@ PYTHONPATH=$(pwd)/src \
 %if %{with tests}
 # test_pdb_custom_cls_with_settrace fails without preinstalled pytest
 # test_pdb_* which spawn pdb hang under some unclear conditions
-# test_request_garbage fails sometimes
 PYTHONPATH=$(pwd)/src \
-%{__python3} -m pytest -k 'not test_pdb and not TestTerminal and not test_request_garbage' testing
+%{__python3} -m pytest -k 'not test_pdb' testing
 %endif
 %endif
 
