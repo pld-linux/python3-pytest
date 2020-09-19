@@ -1,0 +1,10 @@
+--- pytest-4.6.11/testing/acceptance_test.py.orig	2020-06-05 14:09:02.000000000 +0200
++++ pytest-4.6.11/testing/acceptance_test.py	2020-09-15 19:53:44.014482984 +0200
+@@ -145,6 +145,7 @@
+             return (DummyDist(entry_points),)
+ 
+         monkeypatch.setattr(importlib_metadata, "distributions", my_dists)
++        monkeypatch.delenv("PYTEST_DISABLE_PLUGIN_AUTOLOAD", raising=False)
+         params = ("-p", "mycov") if load_cov_early else ()
+         testdir.runpytest_inprocess(*params)
+         if load_cov_early:
