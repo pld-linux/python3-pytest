@@ -95,8 +95,10 @@ export PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
 %if %{with tests}
 # test_pdb_custom_cls_with_settrace fails without preinstalled pytest
 # test_pdb_* which spawn pdb hang under some unclear conditions
+# ...and most test_debugging tests require ptys
+# test_spawn_uses_tmphome and some terminal tests require ptys
 PYTHONPATH=$(pwd)/src \
-%{__python3} -m pytest -k 'not test_pdb' testing
+%{__python3} -m pytest -k 'not (test_debugging or test_spawn_uses_tmphome or test_runtest_location_shown_before_test_starts or test_report_collect_after_half_a_second or test_trial_pdb)' testing
 %endif
 
 %if %{with doc}
