@@ -10,13 +10,13 @@
 Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python3-%{module}
-Version:	5.4.3
-Release:	2
+Version:	6.2.2
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pytest/
 Source0:	https://files.pythonhosted.org/packages/source/p/pytest/pytest-%{version}.tar.gz
-# Source0-md5:	4b6b06b2818516c7c400d4cafe3b9257
+# Source0-md5:	828d15f426ce9740627a9b07e47a318a
 Patch0:		%{name}-tests.patch
 URL:		https://pytest.org/
 BuildRequires:	python3-devel >= 1:3.5
@@ -33,6 +33,7 @@ BuildRequires:	python3-hypothesis >= 3.56
 %if "%{py3_ver}" < "3.8"
 BuildRequires:	python3-importlib_metadata >= 0.12
 %endif
+BuildRequires:	python3-initconfig
 BuildRequires:	python3-more_itertools >= 4.0.0
 BuildRequires:	python3-nose
 BuildRequires:	python3-packaging
