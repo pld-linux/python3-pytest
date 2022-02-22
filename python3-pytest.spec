@@ -5,7 +5,6 @@
 %bcond_without	python3 # CPython 3.x module
 %bcond_without	tests	# unit tests
 
-%define		pylib_version	1.5.0
 %define 	module	pytest
 Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
@@ -19,32 +18,27 @@ Source0:	https://files.pythonhosted.org/packages/source/p/pytest/pytest-%{versio
 # Source0-md5:	828d15f426ce9740627a9b07e47a318a
 Patch0:		%{name}-tests.patch
 URL:		https://pytest.org/
-BuildRequires:	python3-devel >= 1:3.5
-BuildRequires:	python3-modules >= 1:3.5
-BuildRequires:	python3-py >= %{pylib_version}
-BuildRequires:	python3-setuptools >= 1:40.0
-BuildRequires:	python3-setuptools_scm
+BuildRequires:	python3-devel >= 1:3.6
+BuildRequires:	python3-modules >= 1:3.6
+BuildRequires:	python3-py >= 1.8.2
+BuildRequires:	python3-setuptools >= 1:42.0
+BuildRequires:	python3-setuptools_scm >= 3.4
+BuildRequires:	python3-toml
 %if %{with tests}
-BuildRequires:	pydoc3 >= 1:3.5
+BuildRequires:	pydoc3 >= 1:3.6
 BuildRequires:	python3-argcomplete
-BuildRequires:	python3-atomicwrites >= 1.0
-BuildRequires:	python3-attrs >= 17.4.0
+BuildRequires:	python3-attrs >= 19.2.0
 BuildRequires:	python3-hypothesis >= 3.56
 %if "%{py3_ver}" < "3.8"
 BuildRequires:	python3-importlib_metadata >= 0.12
 %endif
-BuildRequires:	python3-initconfig
-BuildRequires:	python3-more_itertools >= 4.0.0
+BuildRequires:	python3-iniconfig
 BuildRequires:	python3-nose
 BuildRequires:	python3-packaging
-%if "%{py3_ver}" < "3.6"
-BuildRequires:	python3-pathlib2 >= 2.2.0
-%endif
 BuildRequires:	python3-pluggy >= 0.12
 BuildRequires:	python3-pluggy < 1.0
+BuildRequires:	python3-pygments >= 2.7.2
 BuildRequires:	python3-requests
-BuildRequires:	python3-six >= 1.10.0
-BuildRequires:	python3-wcwidth
 BuildRequires:	python3-xmlschema
 BuildConflicts:	python3-pytest-benchmark < 3.2.1
 # outdated
@@ -56,13 +50,14 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	sed >= 4.0
 %if %{with doc}
-BuildRequires:	python3-pygments_pytest
+BuildRequires:	python3-pallets-sphinx-themes
+BuildRequires:	python3-pygments_pytest >= 1.1.0
 BuildRequires:	python3-sphinx_removed_in >= 0.2.0
 BuildRequires:	python3-sphinxcontrib-trio
-BuildRequires:	sphinx-pdg-3 >= 1.8.2
+BuildRequires:	sphinx-pdg-3 >= 3.1
 %endif
-Requires:	python3-modules >= 1:3.5
-Requires:	python3-setuptools
+Requires:	python3-modules >= 1:3.6
+Requires:	python3-setuptools >= 1:42.0
 Obsoletes:	python3-pytest-cache
 Obsoletes:	python3-pytest-catchlog
 Conflicts:	python-pytest < 4.6.11-2
