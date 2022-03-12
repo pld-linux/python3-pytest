@@ -58,8 +58,8 @@ BuildRequires:	sphinx-pdg-3 >= 3.1
 %endif
 Requires:	python3-modules >= 1:3.6
 Requires:	python3-setuptools >= 1:42.0
-Obsoletes:	python3-pytest-cache
-Obsoletes:	python3-pytest-catchlog
+Obsoletes:	python3-pytest-cache < 1.1
+Obsoletes:	python3-pytest-catchlog < 1.2.3
 Conflicts:	python-pytest < 4.6.11-2
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
