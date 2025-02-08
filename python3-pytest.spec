@@ -9,15 +9,17 @@
 Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python3-%{module}
-Version:	7.2.1
+Version:	8.3.4
 Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pytest/
 Source0:	https://files.pythonhosted.org/packages/source/p/pytest/pytest-%{version}.tar.gz
-# Source0-md5:	366a4047534ef0485f700c20bb574f67
+# Source0-md5:	542c4e802eeac1d196482e90a36533ed
 URL:		https://pytest.org/
+BuildRequires:	python3-build
 BuildRequires:	python3-devel >= 1:3.7
+BuildRequires:	python3-installer
 BuildRequires:	python3-modules >= 1:3.7
 BuildRequires:	python3-py >= 1.8.2
 BuildRequires:	python3-setuptools >= 1:45.0
@@ -39,7 +41,7 @@ BuildRequires:	python3-importlib_metadata >= 0.12
 BuildRequires:	python3-iniconfig
 BuildRequires:	python3-nose
 BuildRequires:	python3-packaging
-BuildRequires:	python3-pluggy >= 0.12
+BuildRequires:	python3-pluggy >= 1.5.0
 BuildRequires:	python3-pluggy < 2.0
 BuildRequires:	python3-pygments >= 2.7.2
 BuildRequires:	python3-requests
@@ -51,15 +53,16 @@ BuildConflicts:	python3-pytest-catchlog
 BuildConflicts:	python3-pytest-xdist
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.714
+BuildRequires:	rpmbuild(macros) >= 2.044
 BuildRequires:	sed >= 4.0
 %if %{with doc}
-BuildRequires:	python3-packaging < 22
+BuildRequires:	python3-packaging
 BuildRequires:	python3-pallets-sphinx-themes
-BuildRequires:	python3-pluggy >= 1.0
+BuildRequires:	python3-pluggy >= 1.5.0
 BuildRequires:	python3-pygments_pytest >= 2.3.0
 BuildRequires:	python3-sphinx_removed_in >= 0.2.0
 BuildRequires:	python3-sphinxcontrib-svg2pdfconverter
+BuildRequires:	python3-sphinxcontrib-towncrier
 BuildRequires:	python3-sphinxcontrib-trio
 BuildRequires:	sphinx-pdg-3 >= 4.5
 # >= 5
@@ -97,7 +100,8 @@ Dokumentacja pakietu Pythona py.test.
 
 %build
 export PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
-%py3_build
+
+%py3_build_pyproject
 
 %if %{with tests}
 # test_trial_pdb and most test_debugging tests require ptys
@@ -119,7 +123,7 @@ done
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%py3_install
+%py3_install_pyproject
 
 %{__mv} $RPM_BUILD_ROOT%{_bindir}/py.test{,-3}
 %{__mv} $RPM_BUILD_ROOT%{_bindir}/pytest{,-3}
@@ -143,7 +147,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pytest-3
 %{py3_sitescriptdir}/pytest
 %{py3_sitescriptdir}/_pytest
-%{py3_sitescriptdir}/pytest-%{version}-py*.egg-info
+%{py3_sitescriptdir}/pytest-%{version}.dist-info
 
 %if %{with doc}
 %files apidocs
