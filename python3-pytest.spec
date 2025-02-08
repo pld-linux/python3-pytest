@@ -10,12 +10,13 @@ Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python3-%{module}
 Version:	8.3.4
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pytest/
 Source0:	https://files.pythonhosted.org/packages/source/p/pytest/pytest-%{version}.tar.gz
 # Source0-md5:	542c4e802eeac1d196482e90a36533ed
+Patch0:		pytest-dev-bug-12624.patch
 URL:		https://pytest.org/
 BuildRequires:	python3-build
 BuildRequires:	python3-devel >= 1:3.7
@@ -97,6 +98,7 @@ Dokumentacja pakietu Pythona py.test.
 
 %prep
 %setup -q -n %{module}-%{version}
+%patch -P0 -p1
 
 %build
 export PYTEST_DISABLE_PLUGIN_AUTOLOAD=1

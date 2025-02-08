@@ -1,0 +1,70 @@
+From de4b7b60405270a38a82c7c3cbf6da746bd55009 Mon Sep 17 00:00:00 2001
+From: Marcel Telka <marcel@telka.sk>
+Date: Tue, 16 Jul 2024 03:05:07 +0200
+Subject: [PATCH] Load plugins referencing entry point name provided via config
+ and env var
+
+This allows to load plugins via `PYTEST_PLUGINS` environment variable and
+`pytest_plugins` global variable using their names in installed package entry
+points.
+
+Closes #12624.
+---
+ AUTHORS                         | 1 +
+ changelog/12624.improvement.rst | 5 +++++
+ doc/en/reference/reference.rst  | 4 +++-
+ src/_pytest/config/__init__.py  | 2 +-
+ 4 files changed, 10 insertions(+), 2 deletions(-)
+ create mode 100644 changelog/12624.improvement.rst
+
+diff --git a/AUTHORS b/AUTHORS
+index 5c046ff5988..c6331cd022c 100644
+--- a/AUTHORS
++++ b/AUTHORS
+@@ -265,6 +265,7 @@ Mandeep Bhutani
+ Manuel Krebber
+ Marc Mueller
+ Marc Schlaich
++Marcel Telka
+ Marcelo Duarte Trevisani
+ Marcin Bachry
+ Marc Bresson
+diff --git a/changelog/12624.improvement.rst b/changelog/12624.improvement.rst
+new file mode 100644
+index 00000000000..7ca60d428dd
+--- /dev/null
++++ b/changelog/12624.improvement.rst
+@@ -0,0 +1,5 @@
++Plugins specified in the :globalvar:`pytest_plugins` config setting and
++:envvar:`PYTEST_PLUGINS` environment variable now allow using
++:ref:`entry points <pip-installable plugins>` names additionally to the
++importable definitions. Prior to this release, these identifiers used to only
++work with the ``-p`` CLI option -- by :user:`mtelka` and :user:`webknjaz`.
+diff --git a/doc/en/reference/reference.rst b/doc/en/reference/reference.rst
+index 26572174ad4..74d28aba431 100644
+--- a/doc/en/reference/reference.rst
++++ b/doc/en/reference/reference.rst
+@@ -1166,7 +1166,9 @@ specified plugins will be loaded.
+ 
+ .. envvar:: PYTEST_PLUGINS
+ 
+-Contains comma-separated list of modules that should be loaded as plugins:
++Contains comma-separated list of :term:`importable modules <Module>`
++or :ref:`entry point names <pip-installable plugins>` that should be
++loaded as plugins:
+ 
+ .. code-block:: bash
+ 
+diff --git a/src/_pytest/config/__init__.py b/src/_pytest/config/__init__.py
+index 6160f780b1b..8478b43e668 100644
+--- a/src/_pytest/config/__init__.py
++++ b/src/_pytest/config/__init__.py
+@@ -826,7 +826,7 @@ def _import_plugin_specs(
+     ) -> None:
+         plugins = _get_plugin_specs_as_list(spec)
+         for import_spec in plugins:
+-            self.import_plugin(import_spec)
++            self.import_plugin(import_spec, consider_entry_points=True)
+ 
+     def import_plugin(self, modname: str, consider_entry_points: bool = False) -> None:
+         """Import a plugin with ``modname``.
