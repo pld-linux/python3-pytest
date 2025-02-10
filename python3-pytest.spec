@@ -10,7 +10,7 @@ Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python3-%{module}
 Version:	8.3.4
-Release:	2
+Release:	3
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pytest/
@@ -61,13 +61,11 @@ BuildRequires:	python3-packaging
 BuildRequires:	python3-pallets-sphinx-themes
 BuildRequires:	python3-pluggy >= 1.5.0
 BuildRequires:	python3-pygments_pytest >= 2.3.0
-BuildRequires:	python3-sphinx_removed_in >= 0.2.0
+BuildRequires:	python3-sphinx_removed_in >= 0.2.3
 BuildRequires:	python3-sphinxcontrib-svg2pdfconverter
 BuildRequires:	python3-sphinxcontrib-towncrier
 BuildRequires:	python3-sphinxcontrib-trio
 BuildRequires:	sphinx-pdg-3 >= 4.5
-# >= 5
-BuildRequires:	sphinx-pdg-3 < 6
 %endif
 Requires:	python3-modules >= 1:3.7
 # no egg dependency (pytest comes with minimal replacement, we don't package it)
