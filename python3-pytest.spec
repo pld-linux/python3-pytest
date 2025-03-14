@@ -57,9 +57,7 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 2.044
 BuildRequires:	sed >= 4.0
 %if %{with doc}
-%ifnarch x32
 BuildRequires:	python3-furo
-%endif
 BuildRequires:	python3-packaging
 BuildRequires:	python3-pallets-sphinx-themes
 BuildRequires:	python3-pluggy >= 1.5.0
