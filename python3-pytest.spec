@@ -10,7 +10,7 @@ Summary:	Simple and popular testing tool for Python
 Summary(pl.UTF-8):	Proste i popularne narzędzie testujące dla Pythona
 Name:		python3-%{module}
 Version:	8.3.4
-Release:	5
+Release:	6
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pytest/
@@ -40,7 +40,6 @@ BuildRequires:	python3-hypothesis >= 3.56
 BuildRequires:	python3-importlib_metadata >= 0.12
 %endif
 BuildRequires:	python3-iniconfig
-BuildRequires:	python3-nose
 BuildRequires:	python3-packaging
 BuildRequires:	python3-pluggy >= 1.5.0
 BuildRequires:	python3-pluggy < 2.0
