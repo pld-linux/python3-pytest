@@ -20,26 +20,23 @@ Patch0:		pytest-dev-bug-12624.patch
 Patch1:		attrs-25.2.patch
 URL:		https://pytest.org/
 BuildRequires:	python3-build
-BuildRequires:	python3-devel >= 1:3.7
+BuildRequires:	python3-devel >= 1:3.8
 BuildRequires:	python3-installer
-BuildRequires:	python3-modules >= 1:3.7
+BuildRequires:	python3-modules >= 1:3.8
 BuildRequires:	python3-py >= 1.8.2
-BuildRequires:	python3-setuptools >= 1:45.0
+BuildRequires:	python3-setuptools >= 1:61
 BuildRequires:	python3-setuptools_scm >= 6.2.3
-%if "%{py3_ver}" != "3.11"
-BuildRequires:	python3-tomli
+%if "%{_ver_lt %{py3_ver} 3.11}" == "1"
+BuildRequires:	python3-tomli >= 1
 %endif
 %if %{with tests}
 BuildRequires:	pydoc3 >= 1:3.6
 BuildRequires:	python3-argcomplete
 BuildRequires:	python3-attrs >= 19.2.0
-%if "%{py3_ver}" != "3.11"
+%if "%{_ver_lt %{py3_ver} 3.11}" == "1"
 BuildRequires:	python3-exceptiongroup >= 1.0.0
 %endif
 BuildRequires:	python3-hypothesis >= 3.56
-%if "%{py3_ver}" < "3.8"
-BuildRequires:	python3-importlib_metadata >= 0.12
-%endif
 BuildRequires:	python3-iniconfig
 BuildRequires:	python3-packaging
 BuildRequires:	python3-pluggy >= 1.5.0
@@ -57,21 +54,21 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 2.044
 BuildRequires:	sed >= 4.0
 %if %{with doc}
+BuildRequires:	inkscape
 BuildRequires:	python3-furo
 BuildRequires:	python3-packaging
-BuildRequires:	python3-pallets-sphinx-themes
 BuildRequires:	python3-pluggy >= 1.5.0
 BuildRequires:	python3-pygments_pytest >= 2.3.0
+BuildRequires:	python3-sphinx_issues
 BuildRequires:	python3-sphinx_removed_in >= 0.2.3
 BuildRequires:	python3-sphinxcontrib-svg2pdfconverter
 BuildRequires:	python3-sphinxcontrib-towncrier
 BuildRequires:	python3-sphinxcontrib-trio
-BuildRequires:	sphinx-pdg-3 >= 4.5
+BuildRequires:	sphinx-pdg-3 >= 7
 %endif
-Requires:	python3-modules >= 1:3.7
+Requires:	python3-modules >= 1:3.8
 # no egg dependency (pytest comes with minimal replacement, we don't package it)
 Requires:	python3-py >= 1.11.0
-Requires:	python3-setuptools >= 1:42.0
 Obsoletes:	python3-pytest-cache < 1.1
 Obsoletes:	python3-pytest-catchlog < 1.2.3
 Conflicts:	python-pytest < 4.6.11-2
@@ -154,5 +151,5 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with doc}
 %files apidocs
 %defattr(644,root,root,755)
-%doc doc/en/_build/html/{_images,_modules,_static,announce,example,proposals,*.html,*.js}
+%doc doc/en/_build/html/{_images,_modules,_static,announce,example,explanation,how-to,proposals,reference,*.html,*.js}
 %endif
