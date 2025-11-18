@@ -21,14 +21,14 @@ diff --git a/AUTHORS b/AUTHORS
 index 5c046ff5988..c6331cd022c 100644
 --- a/AUTHORS
 +++ b/AUTHORS
-@@ -265,6 +265,7 @@ Mandeep Bhutani
+@@ -275,6 +275,7 @@ Mandeep Bhutani
  Manuel Krebber
  Marc Mueller
  Marc Schlaich
 +Marcel Telka
  Marcelo Duarte Trevisani
+ Marcin Augustynów
  Marcin Bachry
- Marc Bresson
 diff --git a/changelog/12624.improvement.rst b/changelog/12624.improvement.rst
 new file mode 100644
 index 00000000000..7ca60d428dd
